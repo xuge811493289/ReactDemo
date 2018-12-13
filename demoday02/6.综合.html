@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件如何使用</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/react-bootstrap/1.0.0-beta.2/react-bootstrap.min.js">
+    <!-- 导入react/bebel -->
+    <script src="https://cdn.bootcss.com/react/16.6.0/umd/react.development.js"></script>
+    <!-- 导入react-dom -->
+    <script src="https://cdn.bootcss.com/react-dom/16.6.0/umd/react-dom.development.js"></script>
+    <!-- 导入babel -->
+    <script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script type='text/babel'>
+        class Student extends React.Component{
+            constructor(props){
+                super(props);
+                this.state = {
+                    students:[
+                        {
+                            id:1,
+                            name:"terry"
+                        },
+                        {
+                            id:2,
+                            name:"larry"
+                        },
+                    ]
+                }
+            }
+            render(){
+                let {state,props} = this;
+                return (
+                    <div className="student">
+                        <h1>学生管理</h1>
+                        <button>添加</button>
+                        <input type="search" value="提交"/>
+                        <div>
+                            <form>
+                                姓名：
+                                <input type="text" value="姓名"/>
+                                <input type="submit" value="提交查询"/>
+                            </form>
+                        </div>
+                        <ul>
+                            {
+                                state.students.map((item,index)=>{
+                                    return <li key={item.id}>{item.id}{item.name}</li>
+                                })
+                            }
+                        </ul>
+                    </div>
+                )
+            }
+        }
+        class Teacher extends React.Component{
+             render(){
+                return (
+                    <div className="teacher">
+                        教师管理
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+            <Student />,
+            document.getElementById('app')
+        );
+    </script>
+</body>
+</html>

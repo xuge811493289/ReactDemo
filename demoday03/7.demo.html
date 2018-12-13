@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>生命周期钩子：只能定义在组件内部</title>
+    <!-- 导入react/bebel -->
+    <script src="https://cdn.bootcss.com/react/16.6.0/umd/react.development.js"></script>
+    <!-- 导入react-dom -->
+    <script src="https://cdn.bootcss.com/react-dom/16.6.0/umd/react-dom.development.js"></script>
+    <!-- 导入babel -->
+    <script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script type='text/babel'>
+        // 组件定义  自定义标签
+        class MyDiv extends React.Component{
+            constructor(props){
+                super(props);
+                // 实例变量    
+                this.state = {
+                    msg:'你好，react-component',
+                    student:[]
+                }
+                setInterval(()=>{
+                    this.setState({
+                        msg:'render'
+                    })
+                })
+            }
+            // 组件绑定之前
+            componentWillMount(){
+                console.log(this.props);
+                console.log(this.state);
+                this.setState({
+                    msg:'componentWillMount'
+                })
+                alert('componentWillMount');
+            }
+            // 组件绑定之后，可以修改state,实现初始化渲染
+            componentDidMount(){
+                this.setState({
+                    msg:'componentDidMount'
+                })
+                alert('componentDidMount');
+            }
+
+            // state改变->判断阶段,是否渲染->componentWillMount-> render()->componentDidUpdate
+            shouldComponentUpdate(){
+                alert('shouldComponentUpdate');
+                return true
+            }
+            // componentWillUpdate(){
+            //     alert('componentWillUpdate');
+            //     return true;
+            // }
+
+            
+            // componentDidUpdate(){
+            //     alert('componentDidUpdate');
+            // }
+
+
+
+
+
+            // 局部变量每发生一次变化就会执行一次
+            render(){
+                alert('render')
+                // ES6结构    let msg = this.state.msg
+                let {msg} = this.state;
+                return (
+                    <div>
+                        <div>{msg}</div>
+                        // props接收从父组件传过来的值
+                        <div>{this.props.name}</div>
+                    </div>
+                )
+            }
+        }
+        // 如果父组件中没有传值的时候，使用该默认值
+        MyDiv.defaultProps = {
+            name:'默认值'
+        }
+        // 组件渲染
+        ReactDOM.render(
+            // 这里没有传name
+            <MyDiv/>,
+            document.getElementById('app')
+        );
+    </script>
+</body>
+</html>

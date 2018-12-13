@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件如何使用</title>
+    <!-- 导入react/bebel -->
+    <script src="https://cdn.bootcss.com/react/16.6.0/umd/react.development.js"></script>
+    <!-- 导入react-dom -->
+    <script src="https://cdn.bootcss.com/react-dom/16.6.0/umd/react-dom.development.js"></script>
+    <!-- 导入babel -->
+    <script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        // TodoList 组件是一个整体的组件，最终的React渲染也将只渲染这一个组件
+    // 该组件用于将『新增』和『列表』两个组件集成起来，并且存储 todolist 的数据
+    var TodoList = React.createClass({
+        // 初始化数据
+        getInitialState: function () {
+            return {
+                todolist: []
+            };
+        },
+        // 接收一个传入的数据，并将它实时更新到组件的 state 中，以便组件根据数据重新render
+        // 只要改变了 state ，react自动执行 reader 计算
+        handleChange: function (rows) {
+            this.setState({
+                todolist: rows
+            });
+        },
+        render: function () {
+            return (
+                <div>
+                    <TypeNew onAdd={this.handleChange} todo={this.state.todolist} />
+                    <ListTodo onDel={this.handleChange} todo={this.state.todolist} />
+                </div>
+            );
+        }
+    });
+
+    var TypeNew = React.createClass({
+        handleAdd: function (e) {
+            e.preventDefault();
+            var inputDom = this.refs.inputnew.getDOMNode();
+            var newthing = inputDom.value.trim();
+            // 获取传入的todolist数据
+            var rows = this.props.todo;
+            if (newthing !== '') {
+                // 更新数据，并使用 onAdd 更新到 TodoList 组件的 state 中
+                rows.push(newthing);
+                this.props.onAdd(rows);
+            }
+            inputDom.value = '';
+        },
+        render: function () {
+            return (
+                // form submit 时，触发 handleAdd 事件
+                <form onSubmit={this.handleAdd}>
+                    <input type="text" ref="inputnew" id="todo-new" placeholder="typing a newthing todo" autoComplete="off" />
+                </form>
+            );
+        }
+    });
+
+    var ListTodo = React.createClass({
+        handleDel: function (e) {
+            var delIndex = e.target.getAttribute('data-key');
+            // 更新数据，并使用 onDel 更新到 TodoList 的 state 中，以便 React自动render
+            this.props.todo.splice(delIndex, 1);
+            this.props.onDel(this.props.todo);
+        },
+        render: function () {
+            return (
+                <ul id="todo-list">
+                {
+                    // {/* 遍历数据 */}
+                    this.props.todo.map(function (item, i) {
+                        return (
+                            <li>
+                                <label>{item}</label>
+                                <button className="destroy" onClick={this.handleDel} data-key={i}>delete</button>
+                            </li>
+                        );
+                    }.bind(this)) 
+                }
+                </ul>
+            );
+        }
+    });
+
+    // 将 TodoList 组件渲染到页面
+    React.render(<TodoList />, document.getElementById('container'));
+    </script>
+</body>
+</html>

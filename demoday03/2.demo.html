@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello world</title>
+    <!-- 导入react/bebel -->
+    <script src="https://cdn.bootcss.com/react/16.6.0/umd/react.development.js"></script>
+    <!-- 导入react-dom -->
+    <script src="https://cdn.bootcss.com/react-dom/16.6.0/umd/react-dom.development.js"></script>
+    <!-- 导入babel -->
+    <script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script type='text/babel'>
+        let a = <h1>Hello, world!</h1>;
+
+        // 组件定义  自定义标签
+        class MyDiv extends React.Component{
+            // 用于初始化局部变量
+            constructor(props){
+                super(props);
+                // 实例变量    
+                this.state = {
+                    msg:'你好，reactcomponent'
+                }
+            }
+            render(){
+                let {msg} = this.state;
+                return (
+                    <div>{msg}</div>
+                )
+            }
+        }
+        // 组件渲染
+        ReactDOM.render(
+            <MyDiv/>,
+            document.getElementById('app')
+        );
+    </script>
+</body>
+</html>

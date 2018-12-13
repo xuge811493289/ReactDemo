@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件如何使用</title>
+    <!-- 导入react/bebel -->
+    <script src="https://cdn.bootcss.com/react/16.6.0/umd/react.development.js"></script>
+    <!-- 导入react-dom -->
+    <script src="https://cdn.bootcss.com/react-dom/16.6.0/umd/react-dom.development.js"></script>
+    <!-- 导入babel -->
+    <script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script type='text/babel'>
+        //1.函数组件 函数名首字母必须大写 props是形参
+        function Mycomponent(props){
+            return <h1>{props.name}</h1>
+        }
+        // 2.类组件  功能更加强大
+        class MyDiv extends React.Component{
+            // 1.构造函数
+            // 2.定义事件处理函数
+            // 3.使用生命周期钩子函数
+            // 4.重写渲染方法，务必返回一个jsx，用于页面显示
+            render(){
+                return (
+                    <div>
+                        <div>{this.props.msg}</div>
+                        <div>{this.props.num}</div>
+                    </div>
+                )
+            }
+        }
+
+        // 列表渲染
+        class MyUl extends React.Component{
+            render(){
+                return (
+                    <ul>
+                        {
+                            this.props.users.map((user,index)=>{
+                                return <li key={index}>{user}</li>;
+                            })
+                        }
+                    </ul>
+                )
+            }
+        }
+
+        // 4.类组件  
+        class MyHeader extends React.Component{
+            // 构造函数的目的就是为了定义state
+            constructor(props){
+                super(props);
+                this.state = {
+                    user:{
+                        username:'terry'
+                    }
+                }
+            }
+            render(){
+                let user = this.state.user;
+                // 条件渲染
+                if(this.state.user){
+                    return <h2>欢迎您{user.username}</h2>
+                }else{
+                    return <a href="#">登录</a>
+                }
+            }
+        }
+
+        ReactDOM.render(
+            <div>
+                <Mycomponent name='terry'/>
+                <MyDiv num={2} msg="hello mydiv"/>
+                <MyUl users={[2,3,4,5,6,7]}/>
+                <MyHeader/>
+            </div>,
+            document.getElementById('app')
+        );
+    </script>
+</body>
+</html>

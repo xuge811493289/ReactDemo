@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件机制</title>
+    <!-- 导入react/bebel -->
+    <script src="https://cdn.bootcss.com/react/16.6.0/umd/react.development.js"></script>
+    <!-- 导入react-dom -->
+    <script src="https://cdn.bootcss.com/react-dom/16.6.0/umd/react-dom.development.js"></script>
+    <!-- 导入babel -->
+    <script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script type='text/babel'>
+        // 组件定义  自定义标签
+        class MyDiv extends React.Component{
+            constructor(props){
+                super(props);
+                // 实例变量    
+                this.state = {
+                    visible:true,
+                }
+            }
+            // 定义事件处理函数   想在事件中拿到this值，可以使用箭头函数***
+            handlerClickTitle = (id,event)=>{
+                alert(id)
+                this.setState({
+                    visible:!this.state.visible
+                })
+                event.preventDefault();
+            }
+            // 局部变量每发生一次变化就会执行一次
+            render(){
+                let {name} = this.props;
+                let {visible} = this.state;
+
+                let content ;
+                if(visible){
+                    content = <div>this is content</div>
+                }
+                return (
+                    <div>
+                        <h1 onClick={this.handlerClickTitle.bind(this,1)}>{name}</h1>
+                        <h1 onClick={this.handlerClickTitle.bind(this,2)}>{name}</h1>
+                        <a onClick={this.handlerClickTitle.bind(this,3)} href="#">{name}</a>
+                        <div>{content}</div>
+                    </div>
+                )
+            }
+        }
+        // 组件渲染
+        ReactDOM.render(
+            <MyDiv name="terry"/>,
+            document.getElementById('app')
+        );
+    </script>
+</body>
+</html>
