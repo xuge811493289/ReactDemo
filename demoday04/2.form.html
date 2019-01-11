@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单</title>
+    <!-- 导入react/bebel -->
+    <script src="https://cdn.bootcss.com/react/16.6.0/umd/react.development.js"></script>
+    <!-- 导入react-dom -->
+    <script src="https://cdn.bootcss.com/react-dom/16.6.0/umd/react-dom.development.js"></script>
+    <!-- 导入babel -->
+    <script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script type='text/babel'>
+        class MyDiv extends React.Component{
+            constructor(props){
+              super(props);
+              this.state = {
+                username:'admin',
+                password:'admin',
+                gender:'male',
+                department:'webui',
+                agree:'yes',
+                intro:'请输入简介'
+              }
+            }
+            handleChange=(event)=>{
+              let name = event.target.name;
+              let value = event.target.value;
+              this.setState((state)=>({
+                  [name]:value
+              }))
+            }
+            submit=((event)=>{
+              event.preventDefault();
+            })
+            render(){
+              let {username,password,gender,department,agree,intro} = this.state;
+              return (
+                <div>
+                  {JSON.stringify(this.state)} 
+                  <form method="get" action="#" onSubmit={this.submit}>
+                    用户名：<input type="text" name="username"  value={username} onChange={this.handleChange}/><br/>
+                    密码：<input type="password" name="password" value={password} onChange={this.handleChange}/><br/>
+                    性别：<input type="radio" name="gender" value="male" onChange={this.handleChange} checked={gender=="male"?true:false}/>男
+                    <input type="radio" name="gender" value="female" onChange={this.handleChange} checked={gender=="female"?true:false}/>女<br/>
+                    部门：
+                      <select name="department" value={department} onChange={this.handleChange}>
+                        <option value="webui">webui</option>
+                        <option value="大数据">大数据</option>
+                        <option value="Java">Java</option>
+                      </select>
+                      <br/>
+                    同意该协议：
+                    {
+                      /*<input type="checkbox" name="agree" value="yes" onChange={this.handleChange} checked={agree=="yes"?true:false}/>*/
+                    }<br/>
+                    简介：
+                      <textarea name="intro" value={intro} onChange={this.handleSubmit}></textarea><br/>
+                      <input type="submit" value="提交"/>
+                  </form>
+                </div>
+              )
+            }
+        }
+        // 组件渲染   参数1:jsx,参数2:DOM
+        ReactDOM.render(
+            <MyDiv/>,
+            document.getElementById('app')
+        );
+    </script>
+</body>
+</html>

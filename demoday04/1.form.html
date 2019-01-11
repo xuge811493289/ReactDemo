@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单</title>
+    <!-- 导入react/bebel -->
+    <script src="https://cdn.bootcss.com/react/16.6.0/umd/react.development.js"></script>
+    <!-- 导入react-dom -->
+    <script src="https://cdn.bootcss.com/react-dom/16.6.0/umd/react-dom.development.js"></script>
+    <!-- 导入babel -->
+    <script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <!--type='text/babel' -->
+    <script type='text/babel'>
+        // 用类定义组件 
+        class MyDiv extends React.Component{
+            // 用于初始化局部变量    props显式处理  state组件内部的，每个组件单独的
+            constructor(props){
+              super(props);
+              // 局部变量，局部状态    
+              this.state = {
+                msg:'你好,reactcomponent',
+                num:1
+              }
+            }
+            
+
+            render(){
+              // 利用结构获取state中的变量
+              let {msg,num} = this.state;
+              let {flag,data} = this.props;
+              let vv;
+              if(flag){
+                vv = <h1>flag is true</h1>
+              }else{
+                vv = <h1>flag is false</h1>
+              }
+              return (
+                <div>
+                  <div>{num}</div>
+                  <div>{msg}</div>
+                  <div>{flag}</div>
+                  <div>{vv}</div>
+                </div>
+              )
+            }
+        }
+        // 组件渲染   参数1:jsx,参数2:DOM
+        ReactDOM.render(
+            <MyDiv 
+              flag={false} 
+              data={['terry','larry']} 
+            />,
+            document.getElementById('app')
+        );
+    </script>
+</body>
+</html>
